@@ -10,8 +10,6 @@ var vertexShaderText =
 "}",
 ].join("\n");
 
-// gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);",
-
 var fragmentShaderText =
 [
 "precision mediump float;",
@@ -78,11 +76,13 @@ var InitDemo = function() {
 
     var triangleVertices =
     [ // X, Y
-        0.0, 1.0,
-        -1.0, -1.0,
-        1.0, -1.0,
+    0.0,  0.5,  //0.0, //m0
+    -0.5,  -0.4,  //0.0, //m1
+    -0.2,  -0.5,  //0.0, //m2
+    0.2,  -0.5,  //0.0, //m3
+    0.5,  -0.4,  //0.0, //m3
     ];
-  
+
     // Передаём данные о вершинах в буфер видеокарты
     var triangleVertexBufferObject = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexBufferObject);
@@ -101,13 +101,11 @@ var InitDemo = function() {
 
     gl.enableVertexAttribArray(positionAttribLocation);
 
-   
-
     // Основной цикл
     gl.useProgram(program);
 
     const uniformHandle = gl.getUniformLocation(program, "outColor");
-    gl.uniform4fv(uniformHandle, [0.0, 1.0, 0.0, 1.0]);
-    
-    gl.drawArrays(gl.TRIANGLES, 0, 3);    
+    gl.uniform4fv(uniformHandle, [1.0, 0.0, 1.0, 1.0]);
+
+    gl.drawArrays(gl.TRIANGLE_FAN, 0, 5);
 };

@@ -74,13 +74,32 @@ var InitDemo = function() {
         return;
     }
 
-    var triangleVertices =
-    [ // X, Y
-        0.0, 1.0,
-        -1.0, -1.0,
-        1.0, -1.0,
-    ];
-  
+    
+// x=0 #центр полигона (x)
+// y=0 #центр полигона (y)
+// n=5   #число сторон полигона
+// r=0.5  #радиус окружности в которую вписываем полигон
+// #получаем координаты вершин
+
+    var x = 0.0;
+    var y = 0.0;
+    var r = 0.5;
+    var n = 5;
+
+    var phi = 180; //угол отклонения одного из отрезков
+
+    coords=[];
+    for(var i = 1; i < 6; i++){
+
+        var xCoord = x + r * Math.cos(phi + 2 * Math.PI * i / n);
+        var yCoord = y + r * Math.sin(phi + 2 * Math.PI * i / n);
+        coords.push(xCoord);
+        coords.push(yCoord);
+    }
+    console.log(coords);
+
+    var triangleVertices = coords;
+
     // Передаём данные о вершинах в буфер видеокарты
     var triangleVertexBufferObject = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexBufferObject);
@@ -99,12 +118,11 @@ var InitDemo = function() {
 
     gl.enableVertexAttribArray(positionAttribLocation);
 
-    const uniformHandle = gl.getUniformLocation(program, "outColor");
-  
-
     // Основной цикл
     gl.useProgram(program);
 
-    gl.uniform4fv(uniformHandle, [0.0, 1.0, 0.0, 1.0]);
-    gl.drawArrays(gl.TRIANGLES, 0, 3);    
+    const uniformHandle = gl.getUniformLocation(program, "outColor");
+    gl.uniform4fv(uniformHandle, [1.0, 0.0, 1.0, 1.0]);
+
+    gl.drawArrays(gl.TRIANGLE_FAN, 0, 5);
 };
